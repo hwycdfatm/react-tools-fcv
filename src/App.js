@@ -82,31 +82,35 @@ function App() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [inputValue, option, objDl, objUl])
 
-	const handleCopy = () => {
+	const toast = (typ = 'tc') => {
 		const alertNode = document.createElement('div')
-		alertNode.className = 'alert'
-		if (result !== '') {
+		if (typ === 'tc') {
+			alertNode.className = 'alert'
 			alertNode.innerHTML = '<p>Copied!</p>'
-			document.body.appendChild(alertNode)
-			setTimeout(() => {
-				document.body.removeChild(alertNode)
-			}, 3000)
+		} else {
+			alertNode.className = 'alert fail'
+			alertNode.innerHTML = '<p>Nothing to copy!</p>'
+		}
+		document.body.appendChild(alertNode)
+		setTimeout(() => {
+			document.body.removeChild(alertNode)
+		}, 3000)
+	}
+
+	const handleCopy = () => {
+		if (result !== '') {
 			if (window.getSelection) {
 				const range = document.createRange()
 				range.selectNode(resultRef.current)
 				window.getSelection().removeAllRanges()
 				window.getSelection().addRange(range)
 			}
-		} else {
-			alertNode.className = 'alert fail'
-			alertNode.innerHTML = '<p>Nothing to copy!</p>'
-			document.body.appendChild(alertNode)
-			setTimeout(() => {
-				document.body.removeChild(alertNode)
-			}, 3000)
+			navigator.clipboard.writeText(result)
+			toast()
+			return
 		}
+		toast('tb')
 		// /* Copy the text inside the text field */
-		navigator.clipboard.writeText(result)
 	}
 
 	return (
