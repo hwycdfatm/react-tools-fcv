@@ -82,10 +82,12 @@ pre {
 .bottom {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   height: 50px;
   background: #1D5C63;
   position: relative;
   z-index: 5;
+  padding-right: 1rem;
 }
 
 input,
@@ -159,9 +161,9 @@ button:hover {
 
 }
 
-.class-container {
+.container-wrapper {
   display: flex;
-
+  align-items: center;
 }
 
 

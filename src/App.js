@@ -116,7 +116,8 @@ function App() {
 					id="text-input"
 					className="custom-scrollbar"
 					autoFocus
-					onKeyUp={(e) => setInputValue(e.target.value)}
+					onChange={(e) => setInputValue(e.target.value)}
+					value={inputValue}
 					cols="40"
 					rows="20"
 				></textarea>
@@ -125,58 +126,73 @@ function App() {
 				</pre>
 			</div>
 			<div className="bottom">
-				<div className="class-container">
-					{option === 'dl' ? (
-						<>
-							{arrDl.map((item) => (
-								<input
-									key={item}
-									type="text"
-									name={item}
-									onKeyUp={handleClassDl}
-									placeholder={'Class of ' + item}
-								/>
-							))}
-						</>
-					) : (
-						<>
-							{arrUl.map((item) => (
-								<input
-									key={item}
-									type="text"
-									name={item}
-									onKeyUp={handleClassUl}
-									placeholder={'Class of ' + item}
-								/>
-							))}
-						</>
-					)}
+				<div className="container-wrapper">
+					<div className="container-wrapper">
+						{option === 'dl' ? (
+							<>
+								{arrDl.map((item) => (
+									<input
+										key={item}
+										type="text"
+										name={item}
+										onChange={handleClassDl}
+										value={objDl[item]}
+										placeholder={'Class of ' + item}
+									/>
+								))}
+							</>
+						) : (
+							<>
+								{arrUl.map((item) => (
+									<input
+										key={item}
+										type="text"
+										name={item}
+										value={objUl[item]}
+										onChange={handleClassUl}
+										placeholder={'Class of ' + item}
+									/>
+								))}
+							</>
+						)}
+					</div>
+					<div>
+						<input
+							type="radio"
+							id="dl"
+							name="option"
+							defaultChecked={option === 'dl'}
+							onChange={handleChangeOption}
+						/>
+						<label htmlFor="dl">
+							<span>dl</span>
+						</label>
+					</div>
+					<div>
+						<input
+							type="radio"
+							id="ul"
+							name="option"
+							defaultChecked={option === 'ul'}
+							onChange={handleChangeOption}
+						/>
+						<label htmlFor="ul">
+							<span>ul</span>
+						</label>
+					</div>
+					<button onClick={handleCopy}>Copy</button>
 				</div>
-				<div>
-					<input
-						type="radio"
-						id="dl"
-						name="option"
-						defaultChecked={option === 'dl'}
-						onChange={handleChangeOption}
-					/>
-					<label htmlFor="dl">
-						<span>dl</span>
-					</label>
+				<div className="container-wrapper">
+					<button
+						onClick={() => {
+							setObjDl({ dl: '', dd: '', dt: '' })
+							setObjUl({ ul: '', li: '' })
+						}}
+					>
+						Remove All Class
+					</button>
+					<button onClick={() => setInputValue('')}>Clear</button>
 				</div>
-				<div>
-					<input
-						type="radio"
-						id="ul"
-						name="option"
-						defaultChecked={option === 'ul'}
-						onChange={handleChangeOption}
-					/>
-					<label htmlFor="ul">
-						<span>ul</span>
-					</label>
-				</div>
-				<button onClick={handleCopy}>Copy</button>
 			</div>
 		</>
 	)
