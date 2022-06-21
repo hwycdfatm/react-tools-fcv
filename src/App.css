@@ -47,9 +47,9 @@ textarea {
 }
 
 @-moz-document url-prefix() {
-		textarea {
-      white-space: normal;
-    }
+   textarea {
+      white-space: pre;
+   }
 }
 
 pre {
