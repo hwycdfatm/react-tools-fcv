@@ -46,6 +46,12 @@ textarea {
   white-space: nowrap;
 }
 
+@-moz-document url-prefix() {
+		textarea {
+      white-space: normal;
+    }
+}
+
 pre {
   background: #F6FBF4;
 }
