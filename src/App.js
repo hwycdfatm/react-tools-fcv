@@ -17,6 +17,8 @@ function App() {
 		li: '',
 	})
 
+	const [brClass, setBrClass] = useState('')
+
 	const arrDl = ['dl', 'dt', 'dd']
 	const arrUl = ['ul', 'li']
 
@@ -74,7 +76,13 @@ function App() {
 						if (j <= tempArray.length - 2) {
 							str +=
 								tempArray[j]?.trim() +
-								`${j >= tempArray.length - 2 ? '' : '<br />'}`
+								`${
+									j >= tempArray.length - 2
+										? ''
+										: `<br ${
+												brClass ? 'className="' + brClass.trim() + '"' : ''
+										  }/>`
+								}`
 						} else {
 							str += `</dt>\n${'\t'}<dd${
 								dd.trim() !== '' ? ' class="' + dd + '"' : ''
@@ -108,7 +116,7 @@ function App() {
 	useEffect(() => {
 		render()
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [inputValue, option, objDl, objUl])
+	}, [inputValue, option, objDl, objUl, brClass])
 
 	const toast = (typ = 'tc') => {
 		const alertNode = document.createElement('div')
@@ -187,6 +195,15 @@ function App() {
 								))}
 							</>
 						)}
+						{result.match(/<br (.*?)\/>/g) && (
+							<input
+								className="brClass"
+								type="text"
+								onChange={(e) => setBrClass(e.target.value)}
+								value={brClass}
+								placeholder={'Class of Br'}
+							/>
+						)}
 					</div>
 					<div>
 						<input
@@ -217,6 +234,7 @@ function App() {
 						onClick={() => {
 							setObjDl({ dl: '', dd: '', dt: '' })
 							setObjUl({ ul: '', li: '' })
+							setBrClass('')
 						}}
 					>
 						Remove All Class
