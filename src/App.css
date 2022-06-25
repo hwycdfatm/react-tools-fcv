@@ -43,6 +43,13 @@ pre {
 
 textarea {
   background: #F9F9F9;
+  white-space: nowrap;
+}
+
+@-moz-document url-prefix() {
+   textarea {
+      white-space: pre;
+   }
 }
 
 pre {
