@@ -83,7 +83,7 @@ pre {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 50px;
+  min-height: 50px;
   background: #1D5C63;
   position: relative;
   z-index: 5;
@@ -164,6 +164,18 @@ button:hover {
 .container-wrapper {
   display: flex;
   align-items: center;
+}
+
+.primary {
+  background: #7FB5FF;
+  color: #fff;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.primary:hover {
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 

@@ -45,15 +45,43 @@ function App() {
 				string.replace(/\n\n/g, '|').replace(/\n/g, '-').split('|') || []
 			const result = temp.map((str) => str.split('-')) || []
 			let str = ''
+			// for (let i = 0; i < result.length; i++) {
+			// 	const tempArray = result[i]
+			// 	str += `<dl${
+			// 		dl.trim() !== '' ? ' class="' + dl + '"' : ''
+			// 	}>\n${'\t'}<dt${dt.trim() !== '' ? ' class="' + dt + '"' : ''}>${
+			// 		tempArray[0]?.trim() || ''
+			// 	}</dt>\n${'\t'}<dd${dd.trim() !== '' ? ' class="' + dd + '"' : ''}>${
+			// 		tempArray[1]?.trim() || ''
+			// 	}</dd>\n</dl>\n`
+			// }
 			for (let i = 0; i < result.length; i++) {
 				const tempArray = result[i]
-				str += `<dl${
-					dl.trim() !== '' ? ' class="' + dl + '"' : ''
-				}>\n${'\t'}<dt${dt.trim() !== '' ? ' class="' + dt + '"' : ''}>${
-					tempArray[0]?.trim() || ''
-				}</dt>\n${'\t'}<dd${dd.trim() !== '' ? ' class="' + dd + '"' : ''}>${
-					tempArray[1]?.trim() || ''
-				}</dd>\n</dl>\n`
+				if (tempArray.length <= 2) {
+					str += `<dl${
+						dl.trim() !== '' ? ' class="' + dl + '"' : ''
+					}>\n${'\t'}<dt${dt.trim() !== '' ? ' class="' + dt + '"' : ''}>${
+						tempArray[0]?.trim() || ''
+					}</dt>\n${'\t'}<dd${dd.trim() !== '' ? ' class="' + dd + '"' : ''}>${
+						tempArray[1]?.trim() || ''
+					}</dd>\n</dl>\n`
+				} else {
+					str += `<dl${
+						dl.trim() !== '' ? ' class="' + dl + '"' : ''
+					}>\n${'\t'}<dt${dt.trim() !== '' ? ' class="' + dt + '"' : ''}>`
+					console.log(tempArray.length)
+					for (let j = 0; j < tempArray.length; j++) {
+						if (j <= tempArray.length - 2) {
+							str +=
+								tempArray[j]?.trim() +
+								`${j >= tempArray.length - 2 ? '' : '<br />'}`
+						} else {
+							str += `</dt>\n${'\t'}<dd${
+								dd.trim() !== '' ? ' class="' + dd + '"' : ''
+							}>${tempArray[tempArray.length - 1]?.trim() || ''}</dd>\n</dl>\n`
+						}
+					}
+				}
 			}
 			return str
 		}
@@ -184,9 +212,7 @@ function App() {
 							<span>ul</span>
 						</label>
 					</div>
-					<button onClick={handleCopy}>Copy</button>
-				</div>
-				<div className="container-wrapper">
+
 					<button
 						onClick={() => {
 							setObjDl({ dl: '', dd: '', dt: '' })
@@ -196,6 +222,11 @@ function App() {
 						Remove All Class
 					</button>
 					<button onClick={() => setInputValue('')}>Clear</button>
+				</div>
+				<div className="container-wrapper">
+					<button className="primary" onClick={handleCopy}>
+						Copy
+					</button>
 				</div>
 			</div>
 		</>
