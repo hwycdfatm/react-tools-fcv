@@ -5,6 +5,7 @@ function App() {
 	const [inputValue, setInputValue] = useState('')
 	const [result, setResult] = useState('')
 	const [option, setOption] = useState('dl')
+	const [positionTrim, setPositionTrim] = useState('last')
 	const resultRef = useRef(null)
 	const [objDl, setObjDl] = useState({
 		dl: '',
@@ -36,7 +37,10 @@ function App() {
 		const { id } = e.target
 		setOption(id)
 	}
-
+	const handleChangePositionTrim = (e) => {
+		const { id } = e.target
+		setPositionTrim(id)
+	}
 	const handleTrim = (string) => {
 		string = string.trim()
 		if (!string || string === undefined || string === '') return ''
@@ -51,42 +55,65 @@ function App() {
 			// 	const tempArray = result[i]
 			// 	str += `<dl${
 			// 		dl.trim() !== '' ? ' class="' + dl + '"' : ''
-			// 	}>\n${'\t'}<dt${dt.trim() !== '' ? ' class="' + dt + '"' : ''}>${
+			// 	}>\n\t<dt${dt.trim() !== '' ? ' class="' + dt + '"' : ''}>${
 			// 		tempArray[0]?.trim() || ''
-			// 	}</dt>\n${'\t'}<dd${dd.trim() !== '' ? ' class="' + dd + '"' : ''}>${
+			// 	}</dt>\n\t<dd${dd.trim() !== '' ? ' class="' + dd + '"' : ''}>${
 			// 		tempArray[1]?.trim() || ''
 			// 	}</dd>\n</dl>\n`
 			// }
 			for (let i = 0; i < result.length; i++) {
 				const tempArray = result[i]
 				if (tempArray.length <= 2) {
-					str += `<dl${
-						dl.trim() !== '' ? ' class="' + dl + '"' : ''
-					}>\n${'\t'}<dt${dt.trim() !== '' ? ' class="' + dt + '"' : ''}>${
-						tempArray[0]?.trim() || ''
-					}</dt>\n${'\t'}<dd${dd.trim() !== '' ? ' class="' + dd + '"' : ''}>${
-						tempArray[1]?.trim() || ''
-					}</dd>\n</dl>\n`
+					str += `<dl${dl.trim() !== '' ? ' class="' + dl + '"' : ''}>\n\t<dt${
+						dt.trim() !== '' ? ' class="' + dt + '"' : ''
+					}>${tempArray[0]?.trim() || ''}</dt>\n\t<dd${
+						dd.trim() !== '' ? ' class="' + dd + '"' : ''
+					}>${tempArray[1]?.trim() || ''}</dd>\n</dl>\n`
 				} else {
-					str += `<dl${
-						dl.trim() !== '' ? ' class="' + dl + '"' : ''
-					}>\n${'\t'}<dt${dt.trim() !== '' ? ' class="' + dt + '"' : ''}>`
-					console.log(tempArray.length)
-					for (let j = 0; j < tempArray.length; j++) {
-						if (j <= tempArray.length - 2) {
-							str +=
-								tempArray[j]?.trim() +
-								`${
-									j >= tempArray.length - 2
-										? ''
-										: `<br ${
-												brClass ? 'className="' + brClass.trim() + '"' : ''
-										  }/>`
-								}`
-						} else {
-							str += `</dt>\n${'\t'}<dd${
-								dd.trim() !== '' ? ' class="' + dd + '"' : ''
-							}>${tempArray[tempArray.length - 1]?.trim() || ''}</dd>\n</dl>\n`
+					if (positionTrim === 'last') {
+						str += `<dl${
+							dl.trim() !== '' ? ' class="' + dl + '"' : ''
+						}>\n\t<dt${dt.trim() !== '' ? ' class="' + dt + '"' : ''}>`
+
+						for (let j = 0; j < tempArray.length; j++) {
+							if (j <= tempArray.length - 2) {
+								str +=
+									tempArray[j]?.trim() +
+									`${
+										j >= tempArray.length - 2
+											? ''
+											: `<br ${
+													brClass ? 'className="' + brClass.trim() + '"' : ''
+											  }/>`
+									}`
+							} else {
+								str += `</dt>\n\t<dd${
+									dd.trim() !== '' ? ' class="' + dd + '"' : ''
+								}>${
+									tempArray[tempArray.length - 1]?.trim() || ''
+								}</dd>\n</dl>\n`
+							}
+						}
+					} else {
+						str += `<dl${
+							dl.trim() !== '' ? ' class="' + dl + '"' : ''
+						}>\n\t<dt${dt.trim() !== '' ? ' class="' + dt + '"' : ''}>${
+							tempArray[0]?.trim() || ''
+						}</dt>\n\t<dd${dd.trim() !== '' ? ' class="' + dd + '"' : ''}>`
+						for (let j = 0; j < tempArray.length; j++) {
+							if (j <= tempArray.length - 2) {
+								str +=
+									tempArray[j + 1]?.trim() +
+									`${
+										j >= tempArray.length - 2
+											? ''
+											: `<br ${
+													brClass ? 'className="' + brClass.trim() + '"' : ''
+											  }/>`
+									}`
+							} else {
+								str += `</dd>\n</dl>\n`
+							}
 						}
 					}
 				}
@@ -100,9 +127,9 @@ function App() {
 			let str = `<ul${ul.trim() !== '' ? ' class="' + ul + '"' : ''}>\n`
 			for (let i = 0; i < temp.length; i++) {
 				if (temp[i] === '') continue
-				str += `${'\t'}<li${
-					li.trim() !== '' ? ' class="' + li + '"' : ''
-				}>${temp[i]?.trim()}</li>\n`
+				str += `\t<li${li.trim() !== '' ? ' class="' + li + '"' : ''}>${temp[
+					i
+				]?.trim()}</li>\n`
 			}
 			return str + '</ul>'
 		}
@@ -116,7 +143,7 @@ function App() {
 	useEffect(() => {
 		render()
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [inputValue, option, objDl, objUl, brClass])
+	}, [inputValue, option, objDl, objUl, brClass, positionTrim])
 
 	const toast = (typ = 'tc') => {
 		const alertNode = document.createElement('div')
@@ -229,7 +256,34 @@ function App() {
 							<span>ul</span>
 						</label>
 					</div>
-
+					{option === 'dl' && (
+						<>
+							<div title="Trim from first line of text">
+								<input
+									type="radio"
+									id="first"
+									name="position-trim"
+									defaultChecked={positionTrim === 'first'}
+									onChange={handleChangePositionTrim}
+								/>
+								<label htmlFor="first">
+									<span>First</span>
+								</label>
+							</div>
+							<div title="Trim from last line of text">
+								<input
+									type="radio"
+									id="last"
+									name="position-trim"
+									defaultChecked={positionTrim === 'last'}
+									onChange={handleChangePositionTrim}
+								/>
+								<label htmlFor="last">
+									<span>Last</span>
+								</label>
+							</div>
+						</>
+					)}
 					<button
 						onClick={() => {
 							setObjDl({ dl: '', dd: '', dt: '' })
