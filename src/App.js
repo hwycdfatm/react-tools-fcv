@@ -44,8 +44,8 @@ function App() {
 		if (option === 'dl') {
 			const { dl, dt, dd } = objDl
 			const temp =
-				string.replace(/\n\n/g, '|').replace(/\n/g, '-').split('|') || []
-			const result = temp.map((str) => str.split('-')) || []
+				string.replace(/\n\n/g, '*|*').replace(/\n/g, ';-;').split('*|*') || []
+			const result = temp.map((str) => str.split(';-;')) || []
 			let str = ''
 			// for (let i = 0; i < result.length; i++) {
 			// 	const tempArray = result[i]
@@ -96,7 +96,7 @@ function App() {
 		if (option === 'ul') {
 			const { ul, li } = objUl
 
-			const temp = string.replace(/\n/gm, '-').split('-') || []
+			const temp = string.replace(/\n/gm, ';-;').split(';-;') || []
 			let str = `<ul${ul.trim() !== '' ? ' class="' + ul + '"' : ''}>\n`
 			for (let i = 0; i < temp.length; i++) {
 				if (temp[i] === '') continue
