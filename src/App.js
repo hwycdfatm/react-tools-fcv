@@ -224,7 +224,7 @@ function App() {
 						)}
 						{result.match(/<br (.*?)\/>/g) && (
 							<input
-								className="brClass"
+								className="animation-show"
 								type="text"
 								onChange={(e) => setBrClass(e.target.value)}
 								value={brClass}
@@ -256,9 +256,12 @@ function App() {
 							<span>ul</span>
 						</label>
 					</div>
-					{option === 'dl' && (
+					{option === 'dl' && result.match(/<br (.*?)\/>/g) && (
 						<>
-							<div title="Trim from first line of text">
+							<div
+								className="animation-show"
+								title="Trim from first line of text"
+							>
 								<input
 									type="radio"
 									id="first"
@@ -270,7 +273,10 @@ function App() {
 									<span>First</span>
 								</label>
 							</div>
-							<div title="Trim from last line of text">
+							<div
+								className="animation-show"
+								title="Trim from last line of text"
+							>
 								<input
 									type="radio"
 									id="last"
